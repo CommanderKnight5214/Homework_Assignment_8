@@ -1,0 +1,73 @@
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class BibleBookCollection 
+{
+	private ArrayList<BibleBook> theBooks;
+	
+	public BibleBookCollection()
+	{
+		this.theBooks = new ArrayList<BibleBook>();
+	}
+	
+	public BibleBookCollection(String filename)
+	{
+		this();
+		try
+		{
+			Scanner input = new Scanner(new File(System.getProperty("user.dir") + "/src/" + filename));
+			while(input.hasNext())
+			{
+				this.theBooks.add(new BibleBook(input.nextLine()));
+			}
+			input.close();
+		}
+		catch(Exception e) { e.printStackTrace();}
+	}
+	
+	public void addBibleBook(BibleBook b)
+	{
+		this.theBooks.add(b);
+	}
+	
+	public void addBibleBook(String colonDelimitedData)
+	{
+		this.theBooks.add(new BibleBook(colonDelimitedData));
+	}
+	
+	public BibleBook getFirstBookGivenSearchTerm(String term) throws Exception
+	{
+		for(BibleBook aBook : this.theBooks)
+		{
+			if(aBook.searchSummary(term))
+			{
+				return aBook;
+			}
+		}
+		throw new Exception("Term not found exception");
+	}
+	
+	//calls the sortOnName function and returns the BibleBook sorted by name. 
+	public BibleBook NameSort() throws Exception
+	{
+		for(BibleBook abna : this.theBooks)
+		{
+			//Error in calling in passing the variable
+			abna.sortOnName(abna);
+			return abna;
+		}
+		throw new Exception("Error in NameSort");
+	}
+	//Calls the sortOnChapter function and returns the BibleBook sorted by chapter. 
+	public BibleBook ChapterSort() throws Exception
+	{
+		for(BibleBook abnu : this.theBooks)
+		{
+			//Error in calling and passing the variable
+			abnu.sortOnChapter(abnu);
+			return abnu;
+		}
+		throw new Exception("Error in ChapterSort");
+	}
+}
